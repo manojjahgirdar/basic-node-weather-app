@@ -7,99 +7,56 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-<script type="text/javascript">
-    $(document)
-        .ready(
-            function() {
-                var resultElement = $('#resultDiv');
-                resultElement.html('');
-                $('#btnSubmit')
-                    .click(
-                        function() {
-
-                            var city = $('#city');
-                            city.html('');
-
-                            var latitude = $('#lat').val();
-                            var longitude = $('#lon').val();
-
-                            $
-                                .ajax({
-                                    url: 'http://localhost:3000/getWeather',
-                                    method: 'get',
-                                    data: {
-                                        lat: latitude,
-                                        lon: longitude
-                                    },
-                                    dataType: 'json',
-                                    success: function(
-                                        response) {
-                                        if (response.message != null) {
-                                            resultElement
-                                                .html(response.message);
-                                        } else {
-
-                                            celcius = response.main.temp - 273.15;
-                                            celciusmin = response.main.temp_min - 273.15;
-                                            celciusmax = response.main.temp_max - 273.15;
-
-                                            resultElement
-                                                .html('<div class=\"panel panel-default\">' +
-                                                    '<div class=\"panel-heading\" align=\"center\">Weather in ' +
-                                                    response.name +
-                                                    '</div>' +
-                                                    '<div class=\"panel-body\" align=\"center\"> Temperature : <b>' +
-                                                    parseInt(celcius) +
-                                                    ' °C </b> </div>' +
-                                                    '<div class=\"panel-body\" align=\"center\"> Minimum Temp is <b>' +
-                                                    parseInt(celciusmin) +
-                                                    ' °C </b> and Maximum Temp is <b>' +
-                                                    parseInt(celciusmax) +
-                                                    ' °C </b> </div>' +
-                                                    '<div class=\"panel-body\" align=\"center\"> Sky : <b>' +
-                                                    response.weather[0].main +
-                                                    ' </b> </div>' +
-                                                    '<div class=\"panel-body\" align=\"center\"> Description : <b>' +
-                                                    response.weather[0].description +
-                                                    ' </b> </div>' +
-                                                    '</div>');
-                                        }
-                                    },
-                                    error: function(err) {
-                                        alert(err);
-                                    }
-                                });
-                        });
-            });
-</script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="css/style.css">
+<script src="javascript/client-app.js"></script>
 
 <head>
-    <title>The Weather Application</title>
+    <title>Basic Weather Application</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
 <body>
-
-    <div class="jumbotron text-center">
-        <h1>Weather Application</h1>
-        <!-- <p>Built with Codewind!</p> -->
+    <div class="well text-center">
+        <h1> <i class="fa fa-cloud" style="font-size:36px"></i> Weather Application</h1>
+        <p>Built with NodeJs</p>
     </div>
-
     <div class="row">
         <div class="col-sm-4"></div>
         <div class="col-sm-4">
             <div class="panel panel-default">
-                <div class="panel-heading" align="center">Enter Latitude and Longitude
+                <div class="panel-heading" align="center">City Name / Latitude and Longitude
                 </div>
                 <div class="panel-body">
 
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Latitude" name="lat" id="lat" />
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <input type="text" class="form-control" placeholder="Enter City Name" name="getCity" id="getCity" />
+                            </div>
+                        </div>
+
+                        <div align="center" class="center"><b>OR</b></div>
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" placeholder="Enter Latitude" name="lat" id="lat" />
+                            </div>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" placeholder="Enter Longitude" name="lon" id="lon" />
+                            </div>
+                        </div>
                         <div>&nbsp;</div>
-                        <input type="text" class="form-control" placeholder="Longitude" name="lon" id="lon" />
-                        <div>&nbsp;</div>
-                        <button class="btn btn-primary btn-block" type="submit" id="btnSubmit" align="center">Submit</button>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <button class="btn btn-success btn-block" type="submit" id="btnSubmit" align="center">Submit</button>
+                            </div>
+                            <div class="col-sm-12">
+
+                                <button class="btn btn-basic btn-block" id="btnGetLocation" align="center"> <i class="fa fa-location-arrow"></i> Detect Location</button>
+                            </div>
+                        </div>
                     </div>
 
                 </div>
@@ -114,6 +71,10 @@
             <div id="resultDiv"></div>
         </div>
         <div class="col-sm-4"></div>
+    </div>
+
+    <div class="footer">
+        Weather Information provided by &nbsp;<a href="https://openweathermap.org">OpenWeather</a>
     </div>
 
 </body>
